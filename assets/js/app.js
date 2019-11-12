@@ -24,9 +24,16 @@ $(document).ready(function () {
     //  - (screen 2)
     // ************************************** //
     function displayQuestion(img, pro, ans) {
-        $(".displayQ").html("<div class='imgBox'><img class='glyphImg' src='assets/images/glyph/" + img + "'></div><br>" + 
-                            "<div>" + pro + "</div><br>" + 
-                            "<div>" + ans + "</div>");
+        $(".displayQ").html("<div class='imgBox'><img class='glyphImg' src='assets/images/glyph/" + 
+                            img + "'></div>" + 
+                            "<div class='textCenter'><span id='pro'>pron: (" + pro + ")</span></div><br>" + 
+                            "<div class='flexbox'>" + 
+                            "<div class='optionButton'>" + ans[0] + "</div>" +
+                            "<div class='optionButton'>" + ans[1] + "</div>" +
+                            "<div class='optionButton'>" + ans[2] + "</div>" +
+                            "<div class='optionButton'>" + ans[3] + "</div>" +
+                            "</div>"
+                            );
     }
 
     function selectGlyph() {

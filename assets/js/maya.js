@@ -140,7 +140,7 @@ let maya = {
                 img: "19.gif",
                 pro: "ja'ab'",
                 // ans[0] is the correct answer
-                ans: ["yeah", "sky", "road", "peace"]
+                ans: ["year", "sky", "road", "peace"]
             },
             {
                 oid: "g020",
