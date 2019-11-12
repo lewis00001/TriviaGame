@@ -5,6 +5,7 @@
 body {
     background-color: rgba(211, 174, 132);
     background-image: url("../images/maya1.jpg");
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 .hf {
@@ -51,9 +52,41 @@ body {
     background-color: rgb(211, 174, 132);
     font-size: 35px;
     box-shadow: 0 0 3px #222;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     border-radius: 30px;
     padding: 16px 30px 20px 30px;
     top: 25px;
     right: 280px;
+}
+
+.instructions {
+    padding: 60px;
+    font-size: 24px;
+    line-height: 140%;
+    letter-spacing: 1.6px;
+}
+
+.textBox {
+    background-color: rgba(211, 174, 132, 0.6);
+    padding: 8px;
+}
+
+.startButton {
+    text-align: center;
+    color: black;
+    width: 210px;
+    margin: auto;
+    border: 2px solid rgb(15, 0, 15);
+    background-color: rgb(211, 174, 132);
+    font-size: 28px;
+    box-shadow: 0 0 3px #222;
+    border-radius: 30px;
+    padding: 8px 15px 8px 15px;
+    cursor: pointer;
+}
+
+.startButton:hover {
+    color: black;
+    border: 2px solid rgb(15, 0, 15);
+    background-color: #d28f41;
+    box-shadow: 0 0 6px #222;
 }
