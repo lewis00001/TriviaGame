@@ -13,6 +13,10 @@
 
 
 <body>
+    <div class="sounds">
+        <audio preload="auto" src="assets/audio/tap.mp3" id="tap"></audio>
+    </div>
+
     <div class="main">
         <div class="hf head">
             <div class="heading">Maya-glyph-trivia</div>
@@ -22,10 +26,10 @@
 
                 <!--- instructions / begin (screen 1) -->
                 <div class="screen_1">
-                    <div class="instructions">
+                    <div class="details">
                         <div class="textBox">
                             To test your Maya trivia skills, you will be presented
-                            with a series of 10 randomized glyphs. For each, you will 
+                            with a series of 10 randomized glyphs. For each, you will
                             have 30 seconds to decide which of the four choices correspond
                             with the meaning. Your score will be tallied and presented
                             when the game is complete. Good luck (you will need it). 
@@ -33,6 +37,16 @@
                     </div>
                     <div class="startButton">
                         Start Game
+                    </div>
+                </div>
+
+                <!---  (screen 2) -->
+                <div class="screen_2 hidden">
+                    <div class="details">
+                        <div class="textBox">
+                            <div>What is the meaning of the following glyph?</div>
+                            <div class="displayQ"></div>
+                        </div>
                     </div>
                 </div>
 

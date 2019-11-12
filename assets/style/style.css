@@ -58,7 +58,7 @@ body {
     right: 280px;
 }
 
-.instructions {
+.details {
     padding: 60px;
     font-size: 24px;
     line-height: 140%;
@@ -89,4 +89,8 @@ body {
     border: 2px solid rgb(15, 0, 15);
     background-color: #d28f41;
     box-shadow: 0 0 6px #222;
+}
+
+.hidden {
+    display: none;
 }
