@@ -94,3 +94,22 @@ body {
 .hidden {
     display: none;
 }
+
+.glyphImg {
+    display: block;
+    margin: auto;
+    vertical-align: middle;
+}
+
+.imgBox {
+    margin: auto;
+    margin-top: 20px;
+    padding-top: 20px;
+    display: block;
+    border-radius: 50%;
+    width: 110px;
+    height: 110px;
+    background-color: black;
+    border: 3px solid #d28f41;
+    box-shadow: 0 0 6px #222;
+}

@@ -24,7 +24,7 @@ $(document).ready(function () {
     //  - (screen 2)
     // ************************************** //
     function displayQuestion(img, pro, ans) {
-        $(".displayQ").html("<div><img class='glyphImg' src='assets/images/glyph/" + img + "'></div><br>" + 
+        $(".displayQ").html("<div class='imgBox'><img class='glyphImg' src='assets/images/glyph/" + img + "'></div><br>" + 
                             "<div>" + pro + "</div><br>" + 
                             "<div>" + ans + "</div>");
     }
