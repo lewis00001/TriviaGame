@@ -28,10 +28,10 @@ $(document).ready(function () {
                             img + "'></div>" + 
                             "<div class='textCenter'><span id='pro'>pron: (" + pro + ")</span></div><br>" + 
                             "<div class='flexbox'>" + 
-                            "<div class='optionButton'>" + ans[0] + "</div>" +
-                            "<div class='optionButton'>" + ans[1] + "</div>" +
-                            "<div class='optionButton'>" + ans[2] + "</div>" +
-                            "<div class='optionButton'>" + ans[3] + "</div>" +
+                            "<div class='optionButton'>" + ans[0].a + "</div>" +
+                            "<div class='optionButton'>" + ans[1].a + "</div>" +
+                            "<div class='optionButton'>" + ans[2].a + "</div>" +
+                            "<div class='optionButton'>" + ans[3].a + "</div>" +
                             "</div>"
                             );
     }
