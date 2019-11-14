@@ -3,9 +3,15 @@ $(document).ready(function () {
     // *************************************** //
     // global var setup
     // *************************************** //
-    // stores selected glyphs so the same rendom one is not selected twice
+    // stores selected glyphs so the same rendom 
+    // one is not selected twice
     let selectedGlyphs = [];
-
+    // end condition triggers
+    let outOfTime = false;
+    let ansIncorrect = false;
+    let ansCorrect = false;
+    // active correct answer
+    let activeAns;
 
     // ************************************** //
     // instructions / start game - (screen 1)
@@ -21,7 +27,7 @@ $(document).ready(function () {
     });
 
     // ************************************** //
-    //  - (screen 2)
+    // question handling - (screen 2)
     // ************************************** //
     function displayQuestion(img, pro, ans) {
         // randomized order of output
@@ -59,6 +65,10 @@ $(document).ready(function () {
             selectedGlyphs.push(glyphNum.oid);
         }
 
+        // updates active correct answer
+        activeAns = glyphNum.ans[0].a;
+        console.log("active answer set to: " + activeAns);
+
         // calls displayQuestion()
         displayQuestion(glyphNum.img, glyphNum.pro, glyphNum.ans);
 
@@ -69,33 +79,55 @@ $(document).ready(function () {
             // eval of ans - true/false
             if (theChosen === glyphNum.ans[0].a) {
                 console.log(glyphNum.ans[0].isTrue);
-            } else {
-                console.log("not a match");
             }
         });
     }
 
     // questionTimer display
     function questionTimer() {
-        let width = 101;
-        let durration = 15; // time in seconds
-        setInterval(update, durration * 10);
+        let width = 100;
+        let durration = 5; // time in seconds
+        let countDown = setInterval(update, durration * 10);
         // make updates
         function update() {
-            if (width >= 0) {
+            // checks for out of time
+            if (width === 0) {
+                outOfTime = true;
+                clearInterval(countDown);
+                endCondition_outOfTime();
+            // if not out of time, reduce time
+            } else if (width > 0) {
                 $("#timerBar").css({
                     "width": width + "%"
                 });
-                console.log(width);
                 width--;
-            } else {
-                return false;
             }
         };
     }
 
+    // end conditions -----------------//
+    // out of time
+    function endCondition_outOfTime() {
+        if (outOfTime) {
+            console.log("You ran out of time");
+            $(".modal").addClass("bg-modal");
+            $(".modal-content").append("<div class='modal-heading'>Out of Time</div>" +
+                                    "<div class='details-modal'>The correct answer was:</div>" + 
+                                    "<div class='details-modal-bold'>" + activeAns + "</div>");
+        }
+    }
+    // answer incorrect
+    function endCondition_ansIncorrect() {
 
+    }
+    // answer correct
+    function endCondition_ansCorrect() {
 
+    }
+    // game over
+    function endCondition_gameOver() {
+
+    }
 
 
     // ************************************** //
