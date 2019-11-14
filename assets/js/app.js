@@ -6,12 +6,19 @@ $(document).ready(function () {
     // stores selected glyphs so the same rendom 
     // one is not selected twice
     let selectedGlyphs = [];
+    // number of questions per game
+    let numPerGame = 5;
     // end condition triggers
     let outOfTime = false;
     let ansIncorrect = false;
     let ansCorrect = false;
     // active correct answer
-    let activeAns;
+    let activeAns = "";
+    // stats
+    let outOfTime_count = 0; 
+    let ansIncorrect_count = 0; 
+    let ansCorrect_count = 0;
+    let total_count = outOfTime_count + ansIncorrect_count + ansCorrect_count;
 
     // ************************************** //
     // instructions / start game - (screen 1)
@@ -38,7 +45,6 @@ $(document).ready(function () {
                 randOutput.push(current.a);
             }
         }
-        console.log(randOutput);
         console.log(selectedGlyphs);
         // output to screen
         $(".displayQ").html("<div class='imgBox'><img class='glyphImg' src='assets/images/glyph/" +
@@ -95,7 +101,7 @@ $(document).ready(function () {
                 outOfTime = true;
                 clearInterval(countDown);
                 endCondition_outOfTime();
-            // if not out of time, reduce time
+                // if not out of time, reduce time
             } else if (width > 0) {
                 $("#timerBar").css({
                     "width": width + "%"
@@ -105,15 +111,36 @@ $(document).ready(function () {
         };
     }
 
+    // continue the game
+    function continueGame() {
+        $(".modal").removeClass("bg-modal");
+        // reset end condition triggers
+        outOfTime = false;
+        ansIncorrect = false;
+        ansCorrect = false;
+
+        // has endgame condition been reached
+        if (selectedGlyphs.length === numPerGame) {
+            endCondition_gameOver()
+        } else {
+            selectGlyph();
+        }
+    }
+
     // end conditions -----------------//
     // out of time
     function endCondition_outOfTime() {
         if (outOfTime) {
-            console.log("You ran out of time");
+            outOfTime_count++;
+            console.log(outOfTime_count);
+            // show modal
             $(".modal").addClass("bg-modal");
-            $(".modal-content").append("<div class='modal-heading'>Out of Time</div>" +
-                                    "<div class='details-modal'>The correct answer was:</div>" + 
-                                    "<div class='details-modal-bold'>" + activeAns + "</div>");
+            // add content to modal
+            $(".modal-content").html("<div class='modal-heading'>Out of Time</div>" +
+                "<div class='details-modal'>The correct answer was:</div>" +
+                "<div class='details-modal-bold'>" + activeAns + "</div>"
+            );
+            setTimeout(continueGame, 4000);
         }
     }
     // answer incorrect
@@ -126,17 +153,12 @@ $(document).ready(function () {
     }
     // game over
     function endCondition_gameOver() {
-
+        console.log("GAME OVER");
     }
 
 
     // ************************************** //
     //  - (screen 3)
-    // ************************************** //
-
-
-    // ************************************** //
-    //  - (screen 4)
     // ************************************** //
 
 
