@@ -146,3 +146,18 @@ body {
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 18px;
 }
+
+#timerBox {
+    height: 6px;
+    width: 120px;
+    margin: auto;
+    background-color: gray;
+    border: 1px solid black;
+}
+
+#timerBar {
+    height: 4px;
+    width: 101%;
+    background-color: #d28f41;
+    border-right: 1px solid black;
+}
