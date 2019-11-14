@@ -183,6 +183,37 @@ body {
     border-bottom: 1px solid black;
 }
 
+.stat-heading {
+    font-size: 35px;
+    margin: 20px;
+}
+
+.stat-head {
+    font-size: 25px;
+    border-bottom: 1px solid black;
+    padding-bottom: 20px;
+}
+
+.details-stat {
+    font-size: 20px;
+    padding-top: 15px;
+    line-height: 130%;
+    letter-spacing: 1.6px;
+    margin-left: 32px;
+    width: 370px;
+}
+
+.details-stat-bold {
+    font-size: 22px;
+    line-height: 120%;
+    letter-spacing: 1.6px;
+    font-weight: 700;
+}
+
+.float-right {
+    float: right;
+}
+
 #pro {
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 18px;

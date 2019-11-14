@@ -15,8 +15,8 @@ $(document).ready(function () {
     // active correct answer
     let activeAns = "";
     // stats
-    let outOfTime_count = 0; 
-    let ansIncorrect_count = 0; 
+    let outOfTime_count = 0;
+    let ansIncorrect_count = 0;
     let ansCorrect_count = 0;
     let total_count = outOfTime_count + ansIncorrect_count + ansCorrect_count;
 
@@ -113,7 +113,9 @@ $(document).ready(function () {
 
     // continue the game
     function continueGame() {
+        // clear modal
         $(".modal").removeClass("bg-modal");
+        $(".modal-inner").removeClass("modal-content").html("");
         // reset end condition triggers
         outOfTime = false;
         ansIncorrect = false;
@@ -135,6 +137,7 @@ $(document).ready(function () {
             console.log(outOfTime_count);
             // show modal
             $(".modal").addClass("bg-modal");
+            $(".modal-inner").addClass("modal-content");
             // add content to modal
             $(".modal-content").html("<div class='modal-heading'>Out of Time</div>" +
                 "<div class='details-modal'>The correct answer was:</div>" +
@@ -151,15 +154,25 @@ $(document).ready(function () {
     function endCondition_ansCorrect() {
 
     }
+
+    // ************************************** //
+    // end of game stats - (screen 3)
+    // ************************************** //
     // game over
     function endCondition_gameOver() {
         console.log("GAME OVER");
+        // add / remove classes
+        $(".screen_2").addClass("hidden");
+        $(".screen_3").removeClass("hidden");
+        // add content / stats to end screen
+        $("#endStats").html("<div class='details-stat-bold'>Here's how you did:</div>" +
+        "<div class='details-stat'>Answered Correctly:<span class='float-right'>" + 
+        ansCorrect_count + "</span></div>" +
+        "<div class='details-stat'>Answered Incorrectly:<span class='float-right'>" + 
+        ansIncorrect_count + "</span></div>" +
+        "<div class='details-stat'>Out of Time:<span class='float-right'>" +
+        outOfTime_count + "</span></div>" 
+        );
     }
-
-
-    // ************************************** //
-    //  - (screen 3)
-    // ************************************** //
-
 
 });
