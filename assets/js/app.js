@@ -3,22 +3,21 @@ $(document).ready(function () {
     // *************************************** //
     // global var setup
     // *************************************** //
-    // stores selected glyphs so the same rendom 
+    // game controls
+    let secondsPerQuestion  = 15;
+    let secondsPerModal     = 3.5;
+    let numQuestionsPerGame = 8;
+    // stores selected glyphs so the same random 
     // one is not selected twice
     let selectedGlyphs = [];
-    // number of questions per game
-    let numPerGame = 5;
-    // end condition triggers
-    let outOfTime = false;
-    let ansIncorrect = false;
-    let ansCorrect = false;
     // active correct answer
     let activeAns = "";
     // stats
     let outOfTime_count = 0;
     let ansIncorrect_count = 0;
     let ansCorrect_count = 0;
-
+    // sets a global var for setInterval so it can
+    // cleared by any function
     let countDown;
 
     // ************************************** //
@@ -37,6 +36,24 @@ $(document).ready(function () {
     // ************************************** //
     // question handling - (screen 2)
     // ************************************** //
+    function selectGlyph() {
+        // selects a random glyph object
+        let glyphNum = maya.glyph[Math.floor(Math.random() * maya.glyph.length)];
+        // ensure glyph obj has not already been used
+        if ($.inArray(glyphNum.oid, selectedGlyphs) === -1) {
+            selectedGlyphs.push(glyphNum.oid);
+            // updates active correct answer
+            activeAns = glyphNum.ans[0].a;
+            // 8888888888888888888888888888888888888888888888
+            console.log("active answer set to: " + activeAns);
+            // calls displayQuestion()
+            displayQuestion(glyphNum.img, glyphNum.pro, glyphNum.ans);
+        } else {
+            // recursive action
+            selectGlyph();
+        }
+    }
+
     function displayQuestion(img, pro, ans) {
         // randomized order of output
         let randOutput = [];
@@ -46,6 +63,8 @@ $(document).ready(function () {
                 randOutput.push(current.a);
             }
         }
+
+        // 8888888888888888888888888888888888888888888888
         console.log(selectedGlyphs);
         // output to screen
         $(".displayQ").html("<div class='imgBox'><img class='glyphImg' src='assets/images/glyph/" +
@@ -59,40 +78,21 @@ $(document).ready(function () {
             "<div class='optionButton'>" + randOutput[3] + "</div>" +
             "</div>"
         );
-
         // calls questionTimer
         questionTimer();
-    }
-
-    function selectGlyph() {
-        // selects a random glyph object
-        let glyphNum = maya.glyph[Math.floor(Math.random() * maya.glyph.length)];
-        // ensure glyph obj has not already been used
-        if ($.inArray(glyphNum.oid, selectedGlyphs) === -1) {
-            selectedGlyphs.push(glyphNum.oid);
-        }
-        // updates active correct answer
-        activeAns = glyphNum.ans[0].a;
-        console.log("active answer set to: " + activeAns);
-        // calls displayQuestion()
-        displayQuestion(glyphNum.img, glyphNum.pro, glyphNum.ans);
     }
 
     // questionTimer display
     function questionTimer() {
         let width = 100;
-        let durration = 150; // time in seconds
-        countDown = setInterval(update, durration * 10);
+        countDown = setInterval(update, secondsPerQuestion * 16.6667); // (16.6667 mSec is ~1 sec)
         // make updates
         function update() {
-            console.log(width);
             // checks for out of time
             if (width === 0) {
-                outOfTime = true;
                 clearInterval(countDown);
-                console.log("update().else");
                 endCondition_outOfTime();
-            // if not out of time, reduce time
+                // if not out of time, reduce time
             } else if (width > 0) {
                 $("#timerBar").css({
                     "width": width + "%"
@@ -102,18 +102,13 @@ $(document).ready(function () {
         }
     }
 
-    // continue the game
+    // continue game if question limit not reached
     function continueGame() {
         // clear modal
         $(".modal").removeClass("bg-modal");
         $(".modal-inner").removeClass("modal-content").html("");
-        // reset end condition triggers
-        outOfTime = false;
-        ansIncorrect = false;
-        ansCorrect = false;
-
         // has endgame condition been reached
-        if (selectedGlyphs.length === numPerGame) {
+        if (selectedGlyphs.length === numQuestionsPerGame) {
             endCondition_gameOver()
         } else {
             selectGlyph();
@@ -125,11 +120,9 @@ $(document).ready(function () {
         let theChosen = $(this).html();
         // eval of ans - true/false
         if (theChosen === activeAns) {
-            ansCorrect = true;
             clearInterval(countDown);
             endCondition_ansCorrect();
         } else {
-            ansIncorrect = true;
             clearInterval(countDown);
             endCondition_ansIncorrect();
         }
@@ -145,36 +138,30 @@ $(document).ready(function () {
             "<div class='details-modal'>" + details + "</div>" +
             "<div class='details-modal-bold'>" + activeAns + "</div>"
         );
-        setTimeout(continueGame, 4000);
+        setTimeout(continueGame, secondsPerModal * 16.6667); // (16.6667 mSec is ~1 sec)
     }
 
     // end conditions -----------------//
     // out of time
     function endCondition_outOfTime() {
-        if (outOfTime) {
-            outOfTime_count++;
-            let headingText = "Out of Time";
-            let giveDetails = "The correct answer was:";
-            callModal(headingText, giveDetails);
-        }
+        outOfTime_count++;
+        let headingText = "Out of Time";
+        let giveDetails = "The correct answer was:";
+        callModal(headingText, giveDetails);
     }
     // answer incorrect
     function endCondition_ansIncorrect() {
-        if (ansIncorrect) {
-            ansIncorrect++;
-            let headingText = "Answer Incorrect";
-            let giveDetails = "The correct answer was:";
-            callModal(headingText, giveDetails);
-        }
+        ansIncorrect_count++;
+        let headingText = "Answer Incorrect";
+        let giveDetails = "The correct answer was:";
+        callModal(headingText, giveDetails);
     }
     // answer correct
     function endCondition_ansCorrect() {
-        if (ansCorrect) {
-            ansCorrect++;
-            let headingText = "Correct Answer!";
-            let giveDetails = "The answer is: ";
-            callModal(headingText, giveDetails);
-        }
+        ansCorrect_count++;
+        let headingText = "Correct Answer!";
+        let giveDetails = "The answer is: ";
+        callModal(headingText, giveDetails);
     }
 
     // ************************************** //
@@ -182,7 +169,6 @@ $(document).ready(function () {
     // ************************************** //
     // game over
     function endCondition_gameOver() {
-        console.log("GAME OVER");
         // add / remove classes
         $(".screen_2").addClass("hidden");
         $(".screen_3").removeClass("hidden");
@@ -196,5 +182,4 @@ $(document).ready(function () {
             outOfTime_count + "</span></div>"
         );
     }
-
 });
