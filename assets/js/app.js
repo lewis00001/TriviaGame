@@ -70,45 +70,35 @@ $(document).ready(function () {
         if ($.inArray(glyphNum.oid, selectedGlyphs) === -1) {
             selectedGlyphs.push(glyphNum.oid);
         }
-
         // updates active correct answer
         activeAns = glyphNum.ans[0].a;
         console.log("active answer set to: " + activeAns);
-
         // calls displayQuestion()
         displayQuestion(glyphNum.img, glyphNum.pro, glyphNum.ans);
-
-        // listen for option click
-        $(".optionButton").click(function (event) {
-            let theChosen = $(this).html();
-            console.log(theChosen);
-            // eval of ans - true/false
-            if (theChosen === glyphNum.ans[0].a) {
-                console.log(glyphNum.ans[0].isTrue);
-            }
-        });
     }
 
     // questionTimer display
     function questionTimer() {
         let width = 100;
-        let durration = 5; // time in seconds
-        let countDown = setInterval(update, durration * 10);
+        let durration = 150; // time in seconds
+        countDown = setInterval(update, durration * 10);
         // make updates
         function update() {
+            console.log(width);
             // checks for out of time
             if (width === 0) {
                 outOfTime = true;
                 clearInterval(countDown);
+                console.log("update().else");
                 endCondition_outOfTime();
-                // if not out of time, reduce time
+            // if not out of time, reduce time
             } else if (width > 0) {
                 $("#timerBar").css({
                     "width": width + "%"
                 });
                 width--;
             }
-        };
+        }
     }
 
     // continue the game
@@ -129,30 +119,61 @@ $(document).ready(function () {
         }
     }
 
+    // listen for option click - call end condition 
+    $(document).on("click", ".optionButton", function (event) {
+        let theChosen = $(this).html();
+        // eval of ans - true/false
+        if (theChosen === activeAns) {
+            ansCorrect = true;
+            questionTimer();
+            endCondition_ansCorrect();
+        } else {
+            ansIncorrect = true;
+            questionTimer();
+            endCondition_ansIncorrect();
+        }
+    });
+
+    // modal for end conditions
+    function callModal(hText, details) {
+        // show modal
+        $(".modal").addClass("bg-modal");
+        $(".modal-inner").addClass("modal-content");
+        // add content to modal
+        $(".modal-content").html("<div class='modal-heading'>" + hText + "</div>" +
+            "<div class='details-modal'>" + details + "</div>" +
+            "<div class='details-modal-bold'>" + activeAns + "</div>"
+        );
+        setTimeout(continueGame, 4000);
+    }
+
     // end conditions -----------------//
     // out of time
     function endCondition_outOfTime() {
         if (outOfTime) {
             outOfTime_count++;
-            console.log(outOfTime_count);
-            // show modal
-            $(".modal").addClass("bg-modal");
-            $(".modal-inner").addClass("modal-content");
-            // add content to modal
-            $(".modal-content").html("<div class='modal-heading'>Out of Time</div>" +
-                "<div class='details-modal'>The correct answer was:</div>" +
-                "<div class='details-modal-bold'>" + activeAns + "</div>"
-            );
-            setTimeout(continueGame, 4000);
+            let headingText = "Out of Time";
+            let giveDetails = "The correct answer was:";
+            callModal(headingText, giveDetails);
         }
     }
     // answer incorrect
     function endCondition_ansIncorrect() {
-
+        if (ansIncorrect) {
+            ansIncorrect++;
+            let headingText = "Answer Incorrect";
+            let giveDetails = "The correct answer was:";
+            callModal(headingText, giveDetails);
+        }
     }
     // answer correct
     function endCondition_ansCorrect() {
-
+        if (ansCorrect) {
+            ansCorrect++;
+            let headingText = "Correct Answer!";
+            let giveDetails = "The answer is: ";
+            callModal(headingText, giveDetails);
+        }
     }
 
     // ************************************** //
@@ -166,12 +187,12 @@ $(document).ready(function () {
         $(".screen_3").removeClass("hidden");
         // add content / stats to end screen
         $("#endStats").html("<div class='details-stat-bold'>Here's how you did:</div>" +
-        "<div class='details-stat'>Answered Correctly:<span class='float-right'>" + 
-        ansCorrect_count + "</span></div>" +
-        "<div class='details-stat'>Answered Incorrectly:<span class='float-right'>" + 
-        ansIncorrect_count + "</span></div>" +
-        "<div class='details-stat'>Out of Time:<span class='float-right'>" +
-        outOfTime_count + "</span></div>" 
+            "<div class='details-stat'>Answered Correctly:<span class='float-right'>" +
+            ansCorrect_count + "</span></div>" +
+            "<div class='details-stat'>Answered Incorrectly:<span class='float-right'>" +
+            ansIncorrect_count + "</span></div>" +
+            "<div class='details-stat'>Out of Time:<span class='float-right'>" +
+            outOfTime_count + "</span></div>"
         );
     }
 
