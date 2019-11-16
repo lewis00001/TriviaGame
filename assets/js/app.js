@@ -4,8 +4,8 @@ $(document).ready(function () {
     // global var setup
     // *************************************** //
     // game controls
-    let secondsPerQuestion  = 15;
-    let secondsPerModal     = 3.5;
+    let secondsPerQuestion = 20;
+    let secondsPerModal = 3;
     let numQuestionsPerGame = 8;
     // stores selected glyphs so the same random 
     // one is not selected twice
@@ -44,8 +44,6 @@ $(document).ready(function () {
             selectedGlyphs.push(glyphNum.oid);
             // updates active correct answer
             activeAns = glyphNum.ans[0].a;
-            // 8888888888888888888888888888888888888888888888
-            console.log("active answer set to: " + activeAns);
             // calls displayQuestion()
             displayQuestion(glyphNum.img, glyphNum.pro, glyphNum.ans);
         } else {
@@ -63,9 +61,6 @@ $(document).ready(function () {
                 randOutput.push(current.a);
             }
         }
-
-        // 8888888888888888888888888888888888888888888888
-        console.log(selectedGlyphs);
         // output to screen
         $(".displayQ").html("<div class='imgBox'><img class='glyphImg' src='assets/images/glyph/" +
             img + "'></div>" +
@@ -85,12 +80,14 @@ $(document).ready(function () {
     // questionTimer display
     function questionTimer() {
         let width = 100;
-        countDown = setInterval(update, secondsPerQuestion * 16.6667); // (16.6667 mSec is ~1 sec)
+        countDown = setInterval(update, secondsPerQuestion * 10);
         // make updates
         function update() {
             // checks for out of time
             if (width === 0) {
                 clearInterval(countDown);
+                // plays out of time sound
+                $("#outOfTime")[0].play();
                 endCondition_outOfTime();
                 // if not out of time, reduce time
             } else if (width > 0) {
@@ -109,7 +106,7 @@ $(document).ready(function () {
         $(".modal-inner").removeClass("modal-content").html("");
         // has endgame condition been reached
         if (selectedGlyphs.length === numQuestionsPerGame) {
-            endCondition_gameOver()
+            endCondition_gameOver();
         } else {
             selectGlyph();
         }
@@ -138,7 +135,7 @@ $(document).ready(function () {
             "<div class='details-modal'>" + details + "</div>" +
             "<div class='details-modal-bold'>" + activeAns + "</div>"
         );
-        setTimeout(continueGame, secondsPerModal * 16.6667); // (16.6667 mSec is ~1 sec)
+        setTimeout(continueGame, secondsPerModal * 1000);
     }
 
     // end conditions -----------------//
@@ -151,6 +148,8 @@ $(document).ready(function () {
     }
     // answer incorrect
     function endCondition_ansIncorrect() {
+        // plays incorrect sound
+        $("#incorrect")[0].play();
         ansIncorrect_count++;
         let headingText = "Answer Incorrect";
         let giveDetails = "The correct answer was:";
@@ -158,6 +157,8 @@ $(document).ready(function () {
     }
     // answer correct
     function endCondition_ansCorrect() {
+        // plays correct sound
+        $("#correct")[0].play();
         ansCorrect_count++;
         let headingText = "Correct Answer!";
         let giveDetails = "The answer is: ";
@@ -169,6 +170,8 @@ $(document).ready(function () {
     // ************************************** //
     // game over
     function endCondition_gameOver() {
+        // plays end song
+        $("#endSong")[0].play();
         // add / remove classes
         $(".screen_2").addClass("hidden");
         $(".screen_3").removeClass("hidden");
