@@ -18,7 +18,8 @@ $(document).ready(function () {
     let outOfTime_count = 0;
     let ansIncorrect_count = 0;
     let ansCorrect_count = 0;
-    let total_count = outOfTime_count + ansIncorrect_count + ansCorrect_count;
+
+    let countDown;
 
     // ************************************** //
     // instructions / start game - (screen 1)
@@ -125,11 +126,11 @@ $(document).ready(function () {
         // eval of ans - true/false
         if (theChosen === activeAns) {
             ansCorrect = true;
-            questionTimer();
+            clearInterval(countDown);
             endCondition_ansCorrect();
         } else {
             ansIncorrect = true;
-            questionTimer();
+            clearInterval(countDown);
             endCondition_ansIncorrect();
         }
     });
