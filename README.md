@@ -5,4 +5,6 @@ This glyph trivia game contains 24 Maya glyphs, Eight of which are selected at r
 https://lewis00001.github.io/TriviaGame/
 
 ## Screenshots
-
+![game ui](assets/images/screenshot1.PNG)
+![game ui](assets/images/screenshot2.PNG)
+![game ui](assets/images/screenshot3.PNG)
